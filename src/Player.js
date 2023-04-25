@@ -9,8 +9,8 @@ export class Player extends Physics.Arcade.Sprite {
     constructor(scene, x, y){
         super(scene, x, y, 'atlas', 'elf_m_idle_anim_0');
         scene.physics.add.existing(this);
-        this.body.setOffset(0, 12);
-        this.body.setSize(16, 16, false);
+        this.body.setOffset(3, 12);
+        this.body.setSize(10, 16, false);
         this.body.setMaxSpeed(400);
 
         this.body.setDrag(800, 800);
