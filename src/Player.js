@@ -6,6 +6,8 @@ export class Player extends Physics.Arcade.Sprite {
     input;
     shootInterval = 500;
     lastShotTime = 0;
+    arrowObjects = [];
+    ammo = 3;
     constructor(scene, x, y){
         super(scene, x, y, 'atlas', 'elf_m_idle_anim_0');
         scene.physics.add.existing(this);
@@ -66,11 +68,14 @@ export class Player extends Physics.Arcade.Sprite {
             this.body.setVelocityY(this.body.maxSpeed);
             
         }
-        if(this.input.keys.Space.isDown){
-            
+        if(this.input.keys.Space.isDown && this.ammo > 0){
             if(time-this.lastShotTime > this.shootInterval){
-                this.scene.add.existing(new Bullet(this.scene, this.x,this.y, this.input.mouse));
+                let b = new Bullet(this.scene, this.x,this.y, this.input.mouse, this)
+                //console.log(this.arrowObjects);
+                this.arrowObjects.push(b);
+                this.scene.add.existing(b);
                 this.lastShotTime = time;
+                this.ammo--;
             }         
         }
 
