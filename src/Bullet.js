@@ -6,11 +6,12 @@ export class Bullet extends Phaser.Physics.Arcade.Sprite {
         super(scene, x, y);
         scene.physics.add.existing(this);
         this.setTexture('atlas', 'weapon_arrow');
+        this.setBodySize(16, 16);
         this.setScale(4);
         this.body.setMaxSpeed(800);
         this.body.useDamping = true;
         //this.body.setDrag(0.5, 0.5);
-        console.log(Phaser.Math.Angle.BetweenPoints(this, target));
+        //console.log(Phaser.Math.Angle.BetweenPoints(this, target));
         this.rotation = Phaser.Math.Angle.BetweenPoints(this, target)+Math.PI/2;
         
  
