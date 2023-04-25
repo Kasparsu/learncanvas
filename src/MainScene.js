@@ -18,7 +18,7 @@ export class MainScene extends Scene {
         floor.setCollisionByExclusion([130]);
         const walls = map.createLayer(1, tiles, 0, 0);
         walls.setScale(4);
-        let player = this.add.existing(new Player(this, 100, 100));
+        let player = this.add.existing(new Player(this, 635, 475));
         const edges = map.createLayer(2, tiles, 0, 0);
         edges.setScale(4);
         this.physics.add.collider(player, floor);
