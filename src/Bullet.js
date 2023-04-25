@@ -16,7 +16,11 @@ export class Bullet extends Phaser.Physics.Arcade.Sprite {
         
  
         scene.physics.moveToObject(this, target, 800);
+
+        
+
     }
+    
 
     // preUpdate(time,delta){
     //     this.x += this.speed.x/1000*delta;
