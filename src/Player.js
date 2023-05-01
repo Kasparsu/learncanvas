@@ -16,7 +16,7 @@ export class Player extends Physics.Arcade.Sprite {
         this.body.setOffset(0, 12);
         this.body.setSize(16, 16, false);
         this.body.setMaxSpeed(400);
-
+        this.setImmovable(true);
         this.body.setDrag(800, 800);
       
         this.anims.create({
