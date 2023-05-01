@@ -25,7 +25,6 @@ export class MainScene extends Scene {
         edges.setScale(4);
         this.physics.add.collider(player, floor);
         this.map = map;
-        
     }
     
 }

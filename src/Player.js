@@ -1,13 +1,15 @@
 import { Physics } from "phaser";
 import { Bullet } from "./Bullet";
 import { InputManager } from "./InputManager";
+import { AmmoDisplay } from "./AmmoDisplay";
 
 export class Player extends Physics.Arcade.Sprite {
     input;
+    ammoDisplay;
     shootInterval = 500;
     lastShotTime = 0;
     arrowObjects = [];
-    ammo = 3;
+    ammo = 10;
     constructor(scene, x, y){
         super(scene, x, y, 'atlas', 'elf_m_idle_anim_0');
         scene.physics.add.existing(this);
@@ -44,6 +46,7 @@ export class Player extends Physics.Arcade.Sprite {
     
         this.setScale(4);
         this.input = new InputManager(scene);
+        this.ammoDisplay = new AmmoDisplay(scene, this);
        
     }
     isMoving(){
@@ -73,12 +76,14 @@ export class Player extends Physics.Arcade.Sprite {
                 this.scene.physics.add.collider(this, b, () => {
                     b.destroy();
                     this.ammo++;
+                    this.ammoDisplay.update();
                 });
                 this.arrowObjects.push(b);
                 this.scene.add.existing(b);
                 this.lastShotTime = time;
                 this.ammo--;
-            }         
+                this.ammoDisplay.update();
+            }
         }
 
         if(this.isMoving()){
