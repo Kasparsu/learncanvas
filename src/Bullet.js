@@ -14,6 +14,10 @@ export class Bullet extends Phaser.Physics.Arcade.Sprite {
         this.body.useDamping = true;
 
         this.rotation = Phaser.Math.Angle.BetweenPoints(this, target) + Math.PI / 2;
+        scene.physics.add.collider(this, scene.map.getLayer("Floor").tilemapLayer, () => {
+            this.body.setVelocity(0);
+        });
+
 
         scene.physics.moveToObject(this, target, 800);
     }
