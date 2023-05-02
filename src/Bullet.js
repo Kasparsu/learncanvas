@@ -6,8 +6,9 @@ export class Bullet extends Phaser.Physics.Arcade.Sprite {
         super(scene, x, y);
         scene.physics.add.existing(this);
         this.setTexture('atlas', 'weapon_arrow');
-        this.setScale(4);
-        this.body.setMaxSpeed(800);
+        this.setScale(2);
+        this.setSize(10, 10,);
+        this.body.setMaxSpeed(300);
         this.body.useDamping = true;
         //this.body.setDrag(0.5, 0.5);
         console.log(Phaser.Math.Angle.BetweenPoints(this, target));
@@ -15,7 +16,12 @@ export class Bullet extends Phaser.Physics.Arcade.Sprite {
         
  
         scene.physics.moveToObject(this, target, 800);
+        
+        scene.physics.add.collider(this, scene.floor, () => {
+            this.body.setVelocity(0)
+        });
     }
+    
 
     // preUpdate(time,delta){
     //     this.x += this.speed.x/1000*delta;
