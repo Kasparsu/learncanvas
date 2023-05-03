@@ -6,7 +6,7 @@ import { Player } from "./Player";
 import { Enemy } from "./Enemy";
 export class MainScene extends Scene {
     map;
-
+    enemyGroup;
       
     preload() {
         this.load.atlas('atlas', atlas, atlasJSON);
@@ -23,6 +23,11 @@ export class MainScene extends Scene {
         walls.setScale(4);
         let player = this.add.existing(new Player(this, 100, 100));
         let enemy = this.add.existing(new Enemy(this, 400, 400, player));
+        let enemy2 = this.add.existing(new Enemy(this, 600, 800, player));
+        let enemyGroup = this.add.group();
+        enemyGroup.add(enemy);
+        enemyGroup.add(enemy2);
+        this.enemyGroup = enemyGroup;
         const edges = map.createLayer(2, tiles, 0, 0);
         edges.setScale(4);
         this.physics.add.collider(player, floor);
