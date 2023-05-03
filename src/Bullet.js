@@ -21,9 +21,11 @@ export class Bullet extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.collider(this, scene.map.getLayer("Floor").tilemapLayer, () => {
             this.body.setVelocity(0);
         });
+        //add overlap check to all enemies in the group created in MainScene.js
+        //bullet and enemy objects that overlap will be passed to the anonymous function
         scene.physics.add.overlap(this, scene.enemyGroup, (bullet, enemy) => {
+            //arrow can damage only once
             if(!this.hit){
-                console.log(enemy)
                 enemy.health -= this.damage;
                 this.hit = true;
                 this.body.setVelocity(0);

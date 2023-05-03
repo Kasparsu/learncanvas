@@ -24,6 +24,7 @@ export class MainScene extends Scene {
         let player = this.add.existing(new Player(this, 100, 100));
         let enemy = this.add.existing(new Enemy(this, 400, 400, player));
         let enemy2 = this.add.existing(new Enemy(this, 600, 800, player));
+        //create a group of enemy
         let enemyGroup = this.add.group();
         enemyGroup.add(enemy);
         enemyGroup.add(enemy2);

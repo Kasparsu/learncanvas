@@ -12,6 +12,7 @@ export class Enemy extends Physics.Arcade.Sprite {
         if(num <= 0){
             this.stop();
             this.disableBody();
+            //rotate body 90 degrees
             this.setRotation(90/(Math.PI/180));
         }
     }
@@ -52,7 +53,7 @@ export class Enemy extends Physics.Arcade.Sprite {
         // Check for collision with player
         if (this.scene.physics.overlap(this, this.player)) {
 
-            // Apply damage every 2 seconds
+            // Apply damage every 1 second
             if (time > this.damageTimer + this.damageInterval) {
                 this.damageTimer = time;
                 console.log("hit");
