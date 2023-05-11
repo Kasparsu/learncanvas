@@ -6,9 +6,12 @@ export class Player extends Physics.Arcade.Sprite {
     input;
     shootInterval = 500;
     lastShotTime = 0;
-    constructor(scene, x, y){
+    constructor(scene, x, y, floor){
         super(scene, x, y, 'atlas', 'elf_m_idle_anim_0');
         scene.physics.add.existing(this);
+
+        this.floor = floor;
+
         this.body.setOffset(0, 12);
         this.body.setSize(16, 16, false);
         this.body.setMaxSpeed(400);
@@ -69,7 +72,8 @@ export class Player extends Physics.Arcade.Sprite {
         if(this.input.keys.Space.isDown){
             
             if(time-this.lastShotTime > this.shootInterval){
-                this.scene.add.existing(new Bullet(this.scene, this.x,this.y, this.input.mouse));
+                this.scene.add.existing(new Bullet(this.scene, this.x,this.y, this.input.mouse, this.floor, this));
+                
                 this.lastShotTime = time;
             }         
         }
