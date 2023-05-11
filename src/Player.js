@@ -3,6 +3,8 @@ import { Bullet } from "./Bullet";
 import { InputManager } from "./InputManager";
 
 export class Player extends Physics.Arcade.Sprite {
+    
+
     input;
     shootInterval = 500;
     lastShotTime = 0;
@@ -11,6 +13,12 @@ export class Player extends Physics.Arcade.Sprite {
         scene.physics.add.existing(this);
 
         this.floor = floor;
+        
+        this.arrowLimit = 3;
+        this.howManyArrowsNow = 0;
+        
+        
+        
 
         this.body.setOffset(0, 12);
         this.body.setSize(16, 16, false);
@@ -70,12 +78,15 @@ export class Player extends Physics.Arcade.Sprite {
             
         }
         if(this.input.keys.Space.isDown){
-            
-            if(time-this.lastShotTime > this.shootInterval){
-                this.scene.add.existing(new Bullet(this.scene, this.x,this.y, this.input.mouse, this.floor, this));
+            if(this.howManyArrowsNow < this.arrowLimit)
+            {
+                if(time-this.lastShotTime > this.shootInterval){
+                    this.scene.add.existing(new Bullet(this.scene, this.x,this.y, this.input.mouse, this.floor, this));
+                    
+                    this.lastShotTime = time;
+                }
                 
-                this.lastShotTime = time;
-            }         
+            }
         }
 
         if(this.isMoving()){
@@ -84,4 +95,20 @@ export class Player extends Physics.Arcade.Sprite {
             this.play('elf_m_idle_anim', true);
         }
     }
+    addArrow()
+    {
+        this.howManyArrowsNow += 1;
+    }
+    
+    deleteArrow()
+    {
+        this.howManyArrowsNow -= 1;
+    }
+
+    getArrowLimit()
+    {
+        return this.arrowLimit;
+    }
 }
+
+

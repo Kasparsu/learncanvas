@@ -24,6 +24,12 @@ export class MainScene extends Scene {
         edges.setScale(4);
         this.physics.add.collider(player, floor);
         
+
+        this.text = 'You have only ' + player.getArrowLimit() + ' arrows';
+
+        this.add.text(0, 0, this.text, { fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
+
+
     }
     
 }

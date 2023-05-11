@@ -10,6 +10,7 @@ export class Bullet extends Phaser.Physics.Arcade.Sprite {
 
     destroyMe()
     {
+        this.player.deleteArrow();
         this.destroy();    
     }
 
@@ -28,13 +29,17 @@ export class Bullet extends Phaser.Physics.Arcade.Sprite {
         this.inZone = false;
         this.scene = scene;
         this.target = target;
+        this.player = player;
         this.pickable = false;
         
+
  
         scene.physics.moveToObject(this, target, 800);
         scene.physics.add.collider(this, floor, () => {this.stop();}, null, this);
         scene.physics.add.collider(this, player, () => {this.destroyMe();}, null, this);
         
+        this.player.addArrow();
+
         //this.stop();
         
         /*
@@ -53,7 +58,7 @@ export class Bullet extends Phaser.Physics.Arcade.Sprite {
 
 
     }
-
+/*
     preUpdate() {// && this.input.activePointer.isDown
         if (this.inZone) {
           //emitter.explode(10);
@@ -62,7 +67,7 @@ export class Bullet extends Phaser.Physics.Arcade.Sprite {
         
         this.inZone = false;
       }
-
+*/
     // preUpdate(time,delta){
     //     this.x += this.speed.x/1000*delta;
     //     this.y += this.speed.y/1000*delta;
