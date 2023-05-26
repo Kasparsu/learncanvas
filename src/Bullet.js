@@ -1,4 +1,6 @@
 import * as Phaser from "phaser";
+import { MainScene } from "./MainScene";
+import mapJSON from './assets/map.json';
 
 export class Bullet extends Phaser.Physics.Arcade.Sprite {
 
@@ -6,15 +8,18 @@ export class Bullet extends Phaser.Physics.Arcade.Sprite {
         super(scene, x, y);
         scene.physics.add.existing(this);
         this.setTexture('atlas', 'weapon_arrow');
-        this.setScale(4);
+        this.setScale(1.5);
         this.body.setMaxSpeed(800);
         this.body.useDamping = true;
         //this.body.setDrag(0.5, 0.5);
         console.log(Phaser.Math.Angle.BetweenPoints(this, target));
         this.rotation = Phaser.Math.Angle.BetweenPoints(this, target)+Math.PI/2;
         
- 
         scene.physics.moveToObject(this, target, 800);
+        
+        scene.physics.add.collider(this, scene.map.getLayer("Floor").tilemapLayer, () => {
+            this.body.setVelocity(0);
+        });
     }
 
     // preUpdate(time,delta){

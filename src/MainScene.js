@@ -4,6 +4,8 @@ import atlasJSON from './assets/atlas.json';
 import mapJSON from './assets/map.json';
 import { Player } from "./Player";
 export class MainScene extends Scene {
+
+    map;
       
     preload() {
         this.load.atlas('atlas', atlas, atlasJSON);
@@ -23,6 +25,7 @@ export class MainScene extends Scene {
         edges.setScale(4);
         this.physics.add.collider(player, floor);
         
+        this.map = map;
     }
     
 }
