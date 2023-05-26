@@ -73,9 +73,14 @@ export class Player extends Physics.Arcade.Sprite {
         if(this.input.keys.Space.isDown && this.arrowsLeft>0){
             
             if(time-this.lastShotTime > this.shootInterval){
-                this.scene.add.existing(new Bullet(this.scene, this.x,this.y, this.input.mouse));
+                let i = new Bullet(this.scene, this.x,this.y, this.input.mouse)
+                this.scene.physics.add.collider(this, i, () => {
+                    i.destroy();
+                    this.arrowsLeft++;
+                });
+
+                this.scene.add.existing(i);
                 this.lastShotTime = time;
-                
                 this.arrowsLeft--;
             }       
         }
