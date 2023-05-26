@@ -17,6 +17,8 @@ export class Player extends Physics.Arcade.Sprite {
         this.body.setMaxSpeed(400);
 
         this.body.setDrag(800, 800);
+
+        this.count = scene.add.text(0, 0, this.arrowsLeft);
       
         this.anims.create({
             key: 'elf_m_idle_anim',
@@ -77,11 +79,13 @@ export class Player extends Physics.Arcade.Sprite {
                 this.scene.physics.add.collider(this, i, () => {
                     i.destroy();
                     this.arrowsLeft++;
+                    this.count.setText(this.arrowsLeft);
                 });
 
                 this.scene.add.existing(i);
                 this.lastShotTime = time;
                 this.arrowsLeft--;
+                this.count.setText(this.arrowsLeft);
             }       
         }
 
