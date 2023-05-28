@@ -6,8 +6,10 @@ export class Player extends Physics.Arcade.Sprite {
     input;
     shootInterval = 500;
     lastShotTime = 0;
+    ammo = 15;
     constructor(scene, x, y){
         super(scene, x, y, 'atlas', 'elf_m_idle_anim_0');
+        this.ammoCounter = scene.add.text(10, 10, this.amo, { fontSize: '16px', fill: '#FFFFFF'});
         scene.physics.add.existing(this);
         this.body.setOffset(0, 12);
         this.body.setSize(16, 16, false);
@@ -45,7 +47,8 @@ export class Player extends Physics.Arcade.Sprite {
        
     }
     isMoving(){
-   
+
+        this.ammoCounter.setPosition(this.x, this.y -40);
         return this.body.speed>0;
     }
     preUpdate(time, delta) {
@@ -65,13 +68,18 @@ export class Player extends Physics.Arcade.Sprite {
         if(this.input.keys.KeyS.isDown) {
             this.body.setVelocityY(this.body.maxSpeed);
             
-        }
-        if(this.input.keys.Space.isDown){
-            
-            if(time-this.lastShotTime > this.shootInterval){
-                this.scene.add.existing(new Bullet(this.scene, this.x,this.y, this.input.mouse));
-                this.lastShotTime = time;
-            }         
+            if (time - this.lastShotTime < this.shootInterval) {
+                return;
+            }
+
+            if (this.ammo <= 0) {
+                return;
+            }
+
+            this.scene.add.existing(new Bullet(this.scene, this.x, this.y, this.input.mouse));
+            this.lastShotTime = time;
+            this.ammo--;
+            this.ammoCounter.setText(this.ammo);         
         }
 
         if(this.isMoving()){
