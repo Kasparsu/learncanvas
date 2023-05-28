@@ -2,6 +2,9 @@ import * as Phaser from "phaser";
 
 export class Bullet extends Phaser.Physics.Arcade.Sprite {
 
+    shoot = false;
+    damage = 50;
+
     constructor(scene,x,y, target){
         super(scene, x, y);
         scene.physics.add.existing(this);
@@ -11,9 +14,18 @@ export class Bullet extends Phaser.Physics.Arcade.Sprite {
         this.body.setSize(12, 12);
         this.body.useDamping = true;
         //this.body.setDrag(0.5, 0.5);
+        console.log(scene.goblin);
         this.rotation = Phaser.Math.Angle.BetweenPoints(this, target)+Math.PI/2;
         scene.physics.add.collider(this, scene.map.getLayer("Floor").tilemapLayer, () => {
             this.body.setVelocity(0);
+        });
+        scene.physics.add.overlap(this, scene.goblin, (bullet, goblin)=>{
+            if(!this.shoot){
+                console.log(goblin)
+                goblin.health -= this.damage;
+                this.shoot = true;
+                this.body.setVelocity(0);
+            }
         });
  
         scene.physics.moveToObject(this, target, 800);

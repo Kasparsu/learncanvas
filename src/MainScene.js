@@ -3,8 +3,10 @@ import atlas from './assets/0x72_DungeonTilesetII_v1.4.png';
 import atlasJSON from './assets/atlas.json';
 import mapJSON from './assets/map.json';
 import { Player } from "./Player";
+import { Goblin } from "./Goblin";
 export class MainScene extends Scene {
     map;
+    goblin;
       
     preload() {
         this.load.atlas('atlas', atlas, atlasJSON);
@@ -20,11 +22,13 @@ export class MainScene extends Scene {
         const walls = map.createLayer(1, tiles, 0, 0);
         walls.setScale(4);
         walls.setCollisionByExclusion([130]);
-        let player = this.add.existing(new Player(this, 100, 100));
+        let player = this.add.existing(new Player(this, 250, 300));
+        let goblin = this.add.existing(new Goblin(this, 600, 600, player));
+        this.goblin = goblin;
         const edges = map.createLayer(2, tiles, 0, 0);
         edges.setScale(4);
         this.physics.add.collider(player, floor);
-        
+        this.physics.add.collider(goblin, floor);
         this.map = map;
     }
     
