@@ -33,6 +33,8 @@ export class Player extends Physics.Arcade.Sprite {
         this.body.setDrag(800, 800);
 
         this.count = scene.add.text(0, 0, this.arrowsLeft);
+
+        this.gameover = scene.add.text(600, 100, "");
       
         this.anims.create({
             key: 'elf_m_idle_anim',
@@ -105,6 +107,7 @@ export class Player extends Physics.Arcade.Sprite {
 
         if(this.healthLevel<=0){
             this.arrowsLeft = 0;
+            this.gameover.setText("WASTED");
         }
 
         if(this.isMoving()){
