@@ -103,6 +103,10 @@ export class Player extends Physics.Arcade.Sprite {
             }       
         }
 
+        if(this.healthLevel<=0){
+            this.arrowsLeft = 0;
+        }
+
         if(this.isMoving()){
             this.play('elf_m_run_anim', true);
         } else {
