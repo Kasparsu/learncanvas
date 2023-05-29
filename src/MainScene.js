@@ -5,8 +5,6 @@ import mapJSON from './assets/map.json';
 import { Player } from "./Player";
 import { Goblin } from "./Goblin";
 export class MainScene extends Scene {
-
-    map;
       
     preload() {
         this.load.atlas('atlas', atlas, atlasJSON);
@@ -27,6 +25,8 @@ export class MainScene extends Scene {
 
         this.goblin = goblin;
 
+        this.player = player;
+
         const edges = map.createLayer(2, tiles, 0, 0);
         edges.setScale(4);
         this.physics.add.collider(player, floor);
@@ -34,6 +34,11 @@ export class MainScene extends Scene {
         this.physics.add.collider(goblin, floor);
         
         this.map = map;
+
+        this.physics.add.collider(this.goblin, this.player, (goblin, player) => {
+            player.health = player.health - 50;
+            console.log(player.health);
+    });
     }
     
 }

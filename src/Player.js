@@ -3,6 +3,20 @@ import { Bullet } from "./Bullet";
 import { InputManager } from "./InputManager";
 
 export class Player extends Physics.Arcade.Sprite {
+
+    healthLevel = 100;
+
+    set health(i) {
+        this.healthLevel = i;
+        if(i <= 0){
+            this.disableBody();
+            this.setRotation(90/(Math.PI/180));
+        }
+    }
+    get health() {
+        return this.healthLevel;
+    }
+    
     input;
     shootInterval = 500;
     lastShotTime = 0;
