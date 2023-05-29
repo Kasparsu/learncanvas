@@ -4,6 +4,8 @@ import mapJSON from './assets/map.json';
 
 export class Bullet extends Phaser.Physics.Arcade.Sprite {
 
+    hit = false;
+
     constructor(scene,x,y, target){
         super(scene, x, y);
         scene.physics.add.existing(this);
@@ -20,6 +22,14 @@ export class Bullet extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.collider(this, scene.map.getLayer("Floor").tilemapLayer, () => {
             this.body.setVelocity(0);
         });
+
+        scene.physics.add.collider(this, scene.goblin, (bullet, goblin) => {
+            if(this.hit===false){
+            this.hit=true;
+            this.body.setVelocity(0);
+            goblin.health = goblin.health - 50;
+            console.log(goblin.health);
+    }});
     }
 
     // preUpdate(time,delta){

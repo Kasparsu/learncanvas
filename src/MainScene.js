@@ -25,6 +25,8 @@ export class MainScene extends Scene {
 
         let goblin = this.add.existing(new Goblin(this, 500, 500, player));
 
+        this.goblin = goblin;
+
         const edges = map.createLayer(2, tiles, 0, 0);
         edges.setScale(4);
         this.physics.add.collider(player, floor);

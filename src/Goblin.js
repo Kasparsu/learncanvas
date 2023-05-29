@@ -1,6 +1,20 @@
 import { Physics } from "phaser";
 
 export class Goblin extends Physics.Arcade.Sprite {
+
+    healthLevel = 100;
+
+    set health(i) {
+        this.healthLevel = i;
+        if(i <= 0){
+            this.disableBody();
+            this.setRotation(90/(Math.PI/180));
+        }
+    }
+    get health() {
+        return this.healthLevel;
+    }
+
     constructor(scene, x, y, player) {
         super(scene, x, y, 'atlas', 'goblin_idle_anim_0');
         scene.physics.add.existing(this);
