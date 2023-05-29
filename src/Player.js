@@ -3,9 +3,26 @@ import { Bullet } from "./Bullet";
 import { InputManager } from "./InputManager";
 
 export class Player extends Physics.Arcade.Sprite {
+
+    healthLevel = 100;
+
+    set health(i) {
+        this.healthLevel = i;
+        if(i <= 0){
+            this.disableBody();
+            this.setRotation(90/(Math.PI/180));
+        }
+    }
+    get health() {
+        return this.healthLevel;
+    }
+    
     input;
     shootInterval = 500;
     lastShotTime = 0;
+
+    arrowsLeft = 5;
+
     constructor(scene, x, y){
         super(scene, x, y, 'atlas', 'elf_m_idle_anim_0');
         scene.physics.add.existing(this);
@@ -14,6 +31,10 @@ export class Player extends Physics.Arcade.Sprite {
         this.body.setMaxSpeed(400);
 
         this.body.setDrag(800, 800);
+
+        this.count = scene.add.text(0, 0, this.arrowsLeft);
+
+        this.gameover = scene.add.text(600, 100, "");
       
         this.anims.create({
             key: 'elf_m_idle_anim',
@@ -66,12 +87,27 @@ export class Player extends Physics.Arcade.Sprite {
             this.body.setVelocityY(this.body.maxSpeed);
             
         }
-        if(this.input.keys.Space.isDown){
+
+        if(this.input.keys.Space.isDown && this.arrowsLeft>0){
             
             if(time-this.lastShotTime > this.shootInterval){
-                this.scene.add.existing(new Bullet(this.scene, this.x,this.y, this.input.mouse));
+                let i = new Bullet(this.scene, this.x,this.y, this.input.mouse)
+                this.scene.physics.add.collider(this, i, () => {
+                    i.destroy();
+                    this.arrowsLeft++;
+                    this.count.setText(this.arrowsLeft);
+                });
+
+                this.scene.add.existing(i);
                 this.lastShotTime = time;
-            }         
+                this.arrowsLeft--;
+                this.count.setText(this.arrowsLeft);
+            }       
+        }
+
+        if(this.healthLevel<=0){
+            this.arrowsLeft = 0;
+            this.gameover.setText("WASTED");
         }
 
         if(this.isMoving()){
