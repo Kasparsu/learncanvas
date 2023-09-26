@@ -22,7 +22,7 @@ export class MainScene extends Scene {
         const walls = map.createLayer(1, tiles, 0, 0);
         walls.setScale(4);
 
-        let player = this.add.existing(new Player(this, 100, 100));
+        let player = this.add.existing(new Player(this, 250, 100));
 
         let goblin = this.add.existing(new Enemy(this, 800, 400, player))
         this.goblin = goblin
