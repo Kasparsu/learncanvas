@@ -40,6 +40,8 @@ export class Enemy extends Physics.Arcade.Sprite {
         this.setScale(4);
     }
 
+    
+
     preUpdate(time, delta) {
         super.preUpdate(time, delta);
         this.scene.physics.moveToObject(this, this.player, 100);
