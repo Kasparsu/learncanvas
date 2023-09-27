@@ -2,20 +2,20 @@ import { Physics } from "phaser";
 
 export class Enemy extends Physics.Arcade.Sprite {
     player;
-    attackTime = 0;
-    attackInterval = 1000;
-    attackDamage = 30;
-    _health = 400;
+    damageTimer = 0;
+    damageInterval = 1000;
+    damageAmount = 50;
+    _health = 200;
 
     set health(num) {
         this._health = num;
         if(num <= 0){
             this.stop();
             this.disableBody();
+            //rotate body 90 degrees
             this.setRotation(90/(Math.PI/180));
         }
     }
-
     get health() {
         return this._health;
     }
@@ -24,7 +24,7 @@ export class Enemy extends Physics.Arcade.Sprite {
         super(scene, x, y, 'atlas', 'masked_orc_run_anim_0');
         this.player = player;
         scene.physics.add.existing(this);
-        this.body.setOffset(-1, 3);
+        this.body.setOffset(0, 4);
         this.body.setSize(16, 16, false);
 
         this.anims.create({
@@ -43,18 +43,21 @@ export class Enemy extends Physics.Arcade.Sprite {
     preUpdate(time, delta) {
         super.preUpdate(time, delta);
         this.scene.physics.moveToObject(this, this.player, 100);
-
+        //right side is -90 degrees to 90 degrees, so I derived it from this equation 1.571rad × 180/π = 90° => 1.571rad = 90° / 180/π
         if (this.body.angle > -90 / (180 / Math.PI) && this.body.angle < 90 / (180 / Math.PI)) {
             this.setFlipX(false);
         } else {
             this.setFlipX(true);
         }
 
-
+        // Check for collision with player
         if (this.scene.physics.overlap(this, this.player)) {
-            if (time > this.attackTime + this.attackInterval) {
-                this.attackTime = time;
-                this.player.health -= this.attackDamage;
+
+            // Apply damage every 1 second
+            if (time > this.damageTimer + this.damageInterval) {
+                this.damageTimer = time;
+                console.log("hit");
+                this.player.health -= this.damageAmount;
             }
         }
     }
