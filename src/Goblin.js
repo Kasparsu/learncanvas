@@ -1,6 +1,20 @@
 import { Physics } from "phaser";
 
 export class Goblin extends Physics.Arcade.Sprite {
+    hp = 3;
+    player;
+    damage = 1;
+    attackSpeed = 1000;
+    lastAttackTime = 0;
+
+    takeDamage(damage){
+        this.hp -= damage;
+        if(this.hp<=0){
+            this.disableBody();
+            this.rotation = Math.PI/2;
+        }
+    }
+
     constructor(scene, x, y, player){
         super(scene, x, y, 'atlas', 'goblin_idle_anim_0');
         scene.physics.add.existing(this);
@@ -42,9 +56,16 @@ export class Goblin extends Physics.Arcade.Sprite {
 
     preUpdate(time, delta) {
         super.preUpdate(time, delta);
-        if(this.player) {
+        if(this.player && this.hp>0) {
             this.rotation = Phaser.Math.Angle.BetweenPoints(this, this.player)+Math.PI/2;
             this.scene.physics.moveToObject(this, this.player, 200);
+        }
+
+        if (this.scene.physics.overlap(this, this.player)) {
+            if(time>this.lastAttackTime+this.attackSpeed){
+                this.lastAttackTime = time;
+                this.player.takeDamage(this.damage);
+            }
         }
 
         if(this.body.speed>0) {

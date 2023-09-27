@@ -7,6 +7,15 @@ export class Player extends Physics.Arcade.Sprite {
     shootInterval = 500;
     lastShotTime = 0;
     ammo = 3;
+    hp = 3;
+
+    takeDamage(damage){
+        this.hp -= damage;
+        if(this.hp<=0){
+            this.disableBody();
+            this.rotation = Math.PI/2;
+        }
+    }
     constructor(scene, x, y){
         super(scene, x, y, 'atlas', 'elf_m_idle_anim_0');
         scene.physics.add.existing(this);
