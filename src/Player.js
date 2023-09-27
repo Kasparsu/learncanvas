@@ -44,6 +44,7 @@ export class Player extends Physics.Arcade.Sprite {
         this.setScale(4);
         this.input = new InputManager(scene);
        
+        this.count = scene.add.text(0, 0, this.ammo, { fontSize: '64px', fill: '#FFF' });
     }
     isMoving(){
    
@@ -73,10 +74,12 @@ export class Player extends Physics.Arcade.Sprite {
                 this.scene.physics.add.collider(this, bullet, () => {
                     bullet.destroy();
                     this.ammo++;
+                    this.count.setText(this.ammo);
                 });
                 this.scene.add.existing(bullet);
                 this.lastShotTime = time;
                 this.ammo--;
+                this.count.setText(this.ammo);
             }
         }
 
