@@ -44,7 +44,7 @@ export class Player extends Physics.Arcade.Sprite {
         this.setScale(4);
         this.input = new InputManager(scene);
        
-        this.count = scene.add.text(0, 0, this.ammo, { fontSize: '64px', fill: '#FFF' });
+        this.count = scene.add.text(10, 10, this.ammo, { fontSize: '64px', fill: '#FFF' });
     }
     isMoving(){
    
