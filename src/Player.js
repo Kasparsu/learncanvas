@@ -6,6 +6,16 @@ export class Player extends Physics.Arcade.Sprite {
     input;
     shootInterval = 500;
     lastShotTime = 0;
+    ammo = 3;
+    hp = 3;
+
+    takeDamage(damage){
+        this.hp -= damage;
+        if(this.hp<=0){
+            this.disableBody();
+            this.rotation = Math.PI/2;
+        }
+    }
     constructor(scene, x, y){
         super(scene, x, y, 'atlas', 'elf_m_idle_anim_0');
         scene.physics.add.existing(this);
@@ -43,6 +53,7 @@ export class Player extends Physics.Arcade.Sprite {
         this.setScale(4);
         this.input = new InputManager(scene);
        
+        this.count = scene.add.text(10, 10, this.ammo, { fontSize: '64px', fill: '#FFF' });
     }
     isMoving(){
    
@@ -67,11 +78,18 @@ export class Player extends Physics.Arcade.Sprite {
             
         }
         if(this.input.keys.Space.isDown){
-            
-            if(time-this.lastShotTime > this.shootInterval){
-                this.scene.add.existing(new Bullet(this.scene, this.x,this.y, this.input.mouse));
+            if(time-this.lastShotTime > this.shootInterval && this.ammo > 0){
+                let bullet = new Bullet(this.scene, this.x,this.y, this.input.mouse)
+                this.scene.physics.add.collider(this, bullet, () => {
+                    bullet.destroy();
+                    this.ammo++;
+                    this.count.setText(this.ammo);
+                });
+                this.scene.add.existing(bullet);
                 this.lastShotTime = time;
-            }         
+                this.ammo--;
+                this.count.setText(this.ammo);
+            }
         }
 
         if(this.isMoving()){
